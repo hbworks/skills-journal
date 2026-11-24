@@ -1,0 +1,17 @@
+name: skills-journal
+version: 0.1.0
+author: masato
+description: |
+  Keeps the profile's skills directory in git so any skill file (including the
+  scripts shipped with it) can be reverted instead of replaying patch hunks from
+  the session history. Marks dirty paths on post_tool_call (skill_manage,
+  write_file, patch, terminal) and commits once per assistant turn on
+  post_llm_call, so a turn's edits land as one commit. Pristine bundled skills
+  are gitignored (restore those with `hermes skills reset --restore`); skills
+  you authored or edited stay tracked. No-op when the skills directory is not a
+  git repository. Never raises into the agent loop.
+
+provides_hooks:
+  - post_tool_call
+  - post_llm_call
+  - on_session_end
